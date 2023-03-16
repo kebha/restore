@@ -7,7 +7,7 @@ import SignedInMenu from "./SignedInMenu";
 
 const midLinks = [
     { title: 'catalog', path: '/catalog' },
-    { title: 'about', path: '/about' },
+    { title: 'about', path: '/error' },
     { title: 'contact', path: '/contact' },
 ]
 
