@@ -1,7 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import ErrorPage from "../../features/error/ErrorPage";
+import AboutPage from "../../features/about/AboutPage";
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
+import Inventory from "../../features/admin/Inventory";
 import BasketPage from "../../features/basket/BasketPage";
 import Catalog from "../../features/catalog/Catalog";
 import ProductDetails from "../../features/catalog/ProductDetails";
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
         path: "/",
         element: <App />,
         children: [
+            // authenticated routes
             {
                 element: <RequireAuth />,
                 children: [
@@ -25,9 +27,14 @@ export const router = createBrowserRouter([
                     { path: "orders", element: <Orders /> },
                 ],
             },
+            // admin routes
+            {
+                element: <RequireAuth roles={["Admin"]} />,
+                children: [{ path: "inventory", element: <Inventory /> }],
+            },
             { path: "catalog", element: <Catalog /> },
             { path: "catalog/:id", element: <ProductDetails /> },
-            { path: "error", element: <ErrorPage /> },
+            { path: "about", element: <AboutPage /> },
             { path: "contact", element: <ContactPage /> },
             { path: "server-error", element: <ServerError /> },
             { path: "not-found", element: <NotFound /> },
