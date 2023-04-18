@@ -8,13 +8,13 @@ import { useAppSelector, useAppDispatch } from "../store/configureStore";
 
 export default function useProducts() {
     const products = useAppSelector(productSelectors.selectAll);
-    const dispatch = useAppDispatch();
     const { productsLoaded, filtersLoaded, brands, types, metaData } =
         useAppSelector((state) => state.catalog);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (!productsLoaded) dispatch(fetchProductsAsync());
-    }, [dispatch, productsLoaded]);
+    }, [productsLoaded, dispatch]);
 
     useEffect(() => {
         if (!filtersLoaded) dispatch(fetchFilters());

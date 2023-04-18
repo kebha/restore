@@ -1,4 +1,3 @@
-using System.Text.Json;
 using API.Data;
 using API.DTOs;
 using API.Entities;
@@ -74,14 +73,14 @@ namespace API.Controllers
 					return BadRequest(new ProblemDetails { Title = imageResult.Error.Message });
 
 				product.PictureUrl = imageResult.SecureUrl.ToString();
-				product.publicId = imageResult.PublicId;
+				product.PublicId = imageResult.PublicId;
 			}
 
-			_context.Add(product);
+			_context.Products.Add(product);
 
 			var result = await _context.SaveChangesAsync() > 0;
 
-			if (result) return CreatedAtRoute("GetProduct", new { Id = product }, product);
+			if (result) return CreatedAtRoute("GetProduct", new { Id = product.Id }, product);
 
 			return BadRequest(new ProblemDetails { Title = "Problem creating new product" });
 		}
@@ -98,16 +97,16 @@ namespace API.Controllers
 
 			if (productDto.File != null)
 			{
-				var imageResult = await _imageService.AddImageAsync(productDto.File);
+				var imageUploadResult = await _imageService.AddImageAsync(productDto.File);
 
-				if (imageResult.Error != null)
-					return BadRequest(new ProblemDetails { Title = imageResult.Error.Message });
+				if (imageUploadResult.Error != null)
+					return BadRequest(new ProblemDetails { Title = imageUploadResult.Error.Message });
 
-				if (!string.IsNullOrEmpty(product.publicId))
-					await _imageService.DeleteImageAsync(product.publicId);
+				if (!string.IsNullOrEmpty(product.PublicId))
+					await _imageService.DeleteImageAsync(product.PublicId);
 
-				product.PictureUrl = imageResult.SecureUrl.ToString();
-				product.publicId = imageResult.PublicId;
+				product.PictureUrl = imageUploadResult.SecureUrl.ToString();
+				product.PublicId = imageUploadResult.PublicId;
 			}
 
 			var result = await _context.SaveChangesAsync() > 0;
@@ -118,21 +117,21 @@ namespace API.Controllers
 		}
 
 		[Authorize(Roles = "Admin")]
-		[HttpDelete("id")]
+		[HttpDelete("{id}")]
 		public async Task<ActionResult> DeleteProduct(int id)
 		{
 			var product = await _context.Products.FindAsync(id);
 
 			if (product == null) return NotFound();
 
-			if (!string.IsNullOrEmpty(product.publicId))
-				await _imageService.DeleteImageAsync(product.publicId);
+			if (!string.IsNullOrEmpty(product.PublicId))
+				await _imageService.DeleteImageAsync(product.PublicId);
 
 			_context.Products.Remove(product);
 
 			var result = await _context.SaveChangesAsync() > 0;
 
-			if (result) return NoContent();
+			if (result) return Ok();
 
 			return BadRequest(new ProblemDetails { Title = "Problem deleting product" });
 		}

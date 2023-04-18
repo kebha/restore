@@ -16,7 +16,7 @@ import SignedInMenu from "./SignedInMenu";
 
 const midLinks = [
     { title: "catalog", path: "/catalog" },
-    { title: "about", path: "/error" },
+    { title: "about", path: "/about" },
     { title: "contact", path: "/contact" },
 ];
 
@@ -82,7 +82,7 @@ export default function Header({ handleThemeChange, darkMode }: Props) {
                             {title.toUpperCase()}
                         </ListItem>
                     ))}
-                    {user && (
+                    {user && user.roles?.includes("Admin") && (
                         <ListItem
                             component={NavLink}
                             to={"/inventory"}

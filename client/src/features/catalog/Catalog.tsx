@@ -2,12 +2,12 @@ import { Grid, Paper } from "@mui/material";
 import AppPagination from "../../app/components/AppPagination";
 import CheckboxButtons from "../../app/components/CheckboxButtons";
 import RadioButtonGroup from "../../app/components/RadioButtonGroup";
+import useProducts from "../../app/hooks/useProducts";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { setPageNumber, setProductParams } from "./catalogSlice";
 import ProductList from "./ProductList";
 import ProductSearch from "./ProductSearch";
-import useProducts from "../../app/hooks/useProducts";
 
 const sortOptions = [
     { value: "name", label: "Alphabetical" },
@@ -17,8 +17,8 @@ const sortOptions = [
 
 export default function Catalog() {
     const { products, brands, types, filtersLoaded, metaData } = useProducts();
-    const dispatch = useAppDispatch();
     const { productParams } = useAppSelector((state) => state.catalog);
+    const dispatch = useAppDispatch();
 
     if (!filtersLoaded)
         return <LoadingComponent message="Loading products..." />;

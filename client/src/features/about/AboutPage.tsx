@@ -1,10 +1,10 @@
 import { Container, Typography } from "@mui/material";
 
-export default function ContactPage() {
+export default function AboutPage() {
     return (
         <Container>
             <Typography gutterBottom variant={"h2"}>
-                Contact Us
+                About Us
             </Typography>
         </Container>
     );

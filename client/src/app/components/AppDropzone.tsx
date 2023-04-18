@@ -1,8 +1,8 @@
 import { UploadFile } from "@mui/icons-material";
-import { FormControl, FormHelperText, Typography } from "@mui/material";
+import { FormControl, Typography, FormHelperText } from "@mui/material";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { UseControllerProps, useController } from "react-hook-form";
+import { useController, UseControllerProps } from "react-hook-form";
 
 interface Props extends UseControllerProps {}
 
@@ -15,7 +15,7 @@ export default function AppDropzone(props: Props) {
     const dzStyles = {
         display: "flex",
         border: "dashed 3px #eee",
-        borderColor: " #eee",
+        borderColor: "#eee",
         borderRadius: "5px",
         paddingTop: "30px",
         alignItems: "center",
